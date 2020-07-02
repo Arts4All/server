@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { AppGateway } from '../components/gateway/app.gateway';
 
 @Module({
-  imports: [],
+  imports: [AppGateway],
   controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [AppService],
 })
 export class AppModule {}

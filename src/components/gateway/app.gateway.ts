@@ -17,6 +17,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
+    console.log(`msgToClient: ${payload}`);
     this.server.emit('msgToClient', payload);
   }
 
@@ -25,10 +26,12 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   }
 
   handleDisconnect(client: Socket) {
+    console.log(`Client disconnected: ${client.id}`);
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
+    console.log(`Client connected: ${client.id}`);
     this.logger.log(`Client connected: ${client.id}`);
   }
 }
