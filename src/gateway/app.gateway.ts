@@ -26,7 +26,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   drawMessage(client: Socket, payload: string): void {
     this.gatewayService.drawToServer(this.server, payload);
   }
-
+  
   afterInit(server: Server) {
     this.logger.log('Init');
   }
