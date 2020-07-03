@@ -8,17 +8,23 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
+import { GatewayService } from './gateway.service';
 
 @WebSocketGateway()
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-
+  
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
+  private gatewayService: GatewayService = new GatewayService();
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
-    console.log(`msgToClient: ${payload}`);
     this.server.emit('msgToClient', payload);
+  }
+
+  @SubscribeMessage('drawToServer')
+  drawMessage(client: Socket, payload: string): void {
+    this.gatewayService.drawToServer(this.server, payload);
   }
 
   afterInit(server: Server) {
