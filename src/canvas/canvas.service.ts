@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ICanvasDocument } from './canvas.interface';
+import { NodeService } from 'src/Node/__global';
 
 @Injectable()
 export class CanvasService {
@@ -11,25 +12,25 @@ export class CanvasService {
     ) { };
     get(): any {
         return {
-            nodes,
-            sizeX,
-            sizeY
+            nodes: NodeService.instance.nodes,
+            sizeX: NodeService.instance.sizeX,
+            sizeY: NodeService.instance.sizeY,
         }
     }
     async getAll(): Promise<[ICanvasDocument]> {
         return await this.canvasModel.find({}).limit(20);
     }
     update(x: number, y: number, newColor: string) {
-        const value = nodes[x][y] || '#ffffff';
+        const value = NodeService.instance.nodes[x][y] || '#ffffff';
         if (value != '#ffffff') return;
-        nodes[x][y] = newColor;
+        NodeService.instance.nodes[x][y] = newColor;
     }
     save() {
         const canvas: ICanvasDocument = {
-            sizeX: sizeX,
-            sizeY: sizeY,
-            paintedSize: paintedSize,
-            nodes: nodes,
+            sizeX: NodeService.instance.sizeX,
+            sizeY: NodeService.instance.sizeY,
+            paintedSize: NodeService.instance.paintedSize,
+            nodes: NodeService.instance.nodes,
             finished: true,
         };
         this.canvasModel.create(canvas);
