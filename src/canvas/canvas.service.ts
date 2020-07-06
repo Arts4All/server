@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ICanvasDocument } from './canvas.interface';
-import { NodeService } from 'src/Node/__global';
+import { NodeService } from 'src/node/node';
 
 @Injectable()
 export class CanvasService {
@@ -34,6 +34,7 @@ export class CanvasService {
             finished: true,
         };
         this.canvasModel.create(canvas);
+        NodeService.reset()
     }
     async delete(): Promise<string> {
         return await this.canvasModel.deleteMany({});
