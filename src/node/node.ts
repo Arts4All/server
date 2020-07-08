@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 export class NodeService {
 
-    public static instance: NodeService = new NodeService(3, 5);
+    public static instance: NodeService = new NodeService(10, 5);
     public nodes: string[][];
     public sizeX: number
     public sizeY: number
@@ -13,11 +13,11 @@ export class NodeService {
         this.sizeY = sizeY
         this.paintedSize = 0
         let canvas = [];
-        for (let index = 0; index < sizeX; index++) {
-            canvas[index] = new Array<string>(sizeY);
+        for (let index = 0; index < sizeY; index++) {
+            canvas[index] = new Array<string>(sizeX);
         }
-        for (let indexX = 0; indexX < sizeX; indexX++) {
-            for (let indexY = 0; indexY < sizeY; indexY++) {
+        for (let indexX = 0; indexX < sizeY; indexX++) {
+            for (let indexY = 0; indexY < sizeX; indexY++) {
                 canvas[indexX][indexY] = '255, 255, 255'
             }
         }

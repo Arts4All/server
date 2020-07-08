@@ -15,9 +15,8 @@ export class GatewayService {
 
     async drawToServer(server: Server, payload: string) {
         try {
-            // server.emit('drawToClient', payload);
-            this.canvasService.update(Number(payload[0]), Number(payload[1]), payload[2])
-            console.log(payload[0]);
+            await this.canvasService.update(Number(payload[0]), Number(payload[1]), payload[2])
+            server.emit('drawToClient', Number(payload[0]), Number(payload[1]), payload[2]);
         } catch (error) {
             console.log(error);
         }

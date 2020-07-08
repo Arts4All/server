@@ -21,13 +21,21 @@ export class CanvasService {
         return await this.canvasModel.find({}).limit(20);
     }
     update(x: number, y: number, newColor: string) {
-        const value = NodeService.instance.nodes[x][y] || '255, 255, 255';
-        if (value != '255, 255, 255') return;
-        NodeService.instance.nodes[x][y] = newColor;
-        NodeService.instance.paintedSize += 1;
-        if (NodeService.instance.paintedSize == NodeService.instance.sizeX * NodeService.instance.sizeY) {
-            this.save()
+        try {
+            console.log(x, y, newColor);
+            const value = NodeService.instance.nodes[x][y] || '255, 255, 255';
+
+
+            if (value != '255, 255, 255') return;
+            NodeService.instance.nodes[x][y] = newColor;
+            NodeService.instance.paintedSize += 1;
+            if (NodeService.instance.paintedSize == NodeService.instance.sizeX * NodeService.instance.sizeY) {
+                this.save()
+            }
+        } catch (error) {
+            console.log(error)
         }
+
     }
     save() {
         const canvas: ICanvasDocument = {

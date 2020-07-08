@@ -1,7 +1,7 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { CanvasService } from './canvas.service';
 import { ConvertImage } from 'src/helpers/convert.image';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import * as fs from 'fs';
 import { Readable } from 'stream'
 
