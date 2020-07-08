@@ -1,11 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { Server } from 'socket.io';
-
+import { Server, Socket } from 'socket.io';
+import { NodeService } from 'src/node/node';
+import { CanvasService } from 'src/canvas/canvas.service';
 
 @Injectable()
 export class GatewayService {
+    constructor(
+        private readonly canvasService: CanvasService,
+    ) {};
+
+    async join(server: Server, payload: string, client: Socket) {
+        server.emit('joined', payload, JSON.stringify(NodeService.instance.nodes));
+    }
+
     async drawToServer(server: Server, payload: string) {
-        server.emit('drawToClient', payload);
-        console.log('hello');
+        try {
+            // server.emit('drawToClient', payload);
+            this.canvasService.update(Number(payload[0]), Number(payload[1]), payload[2])
+            console.log(payload[0]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async end(server: Server, payload: string) {
+        server.emit('end', payload);
+        console.log('end');
     }
 }

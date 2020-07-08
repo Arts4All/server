@@ -13,9 +13,9 @@ import { GatewayService } from './gateway.service';
 @WebSocketGateway()
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   
+  constructor(private gatewayService: GatewayService) {};
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppGateway');
-  private gatewayService: GatewayService = new GatewayService();
 
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, payload: string): void {
@@ -25,6 +25,10 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
   @SubscribeMessage('drawToServer')
   drawMessage(client: Socket, payload: string): void {
     this.gatewayService.drawToServer(this.server, payload);
+  }
+  @SubscribeMessage('join')
+  join(client: Socket, payload: string): void {
+    this.gatewayService.join(this.server, payload, client)
   }
   
   afterInit(server: Server) {

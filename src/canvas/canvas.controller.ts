@@ -19,8 +19,8 @@ export class CanvasController {
     }
     @Get('update')
     async update() {
-        await this.canvasService.update(0, 0, '#000000');
-        await this.canvasService.update(0, 1, '#000000');
+        await this.canvasService.update(0, 0, '0, 0, 0');
+        await this.canvasService.update(0, 1, '0, 0, 0');
         return 
     }
     @Get('save')

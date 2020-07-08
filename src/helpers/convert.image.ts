@@ -30,8 +30,7 @@ export class ConvertImage {
         return arr.map(elem=>elem.map(e=>`${this.hexToRgb(e).r}, ${this.hexToRgb(e).g}, ${this.hexToRgb(e).b}`))
     }
     async jsonToImage(): Promise<Jimp> {
-        const pixelsInHex = NodeService.instance.nodes
-        const pixels = this.transformArrayInRgb(pixelsInHex);
+        const pixels = NodeService.instance.nodes;
         console.log(pixels[0][0])
         try {
             const image = await new Jimp(pixels[0].length, pixels.length);

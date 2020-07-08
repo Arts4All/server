@@ -18,7 +18,7 @@ export class NodeService {
         }
         for (let indexX = 0; indexX < sizeX; indexX++) {
             for (let indexY = 0; indexY < sizeY; indexY++) {
-                canvas[indexX][indexY] = '#ffffff'
+                canvas[indexX][indexY] = '255, 255, 255'
             }
         }
         this.nodes = canvas
