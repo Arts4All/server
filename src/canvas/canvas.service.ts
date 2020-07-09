@@ -22,10 +22,7 @@ export class CanvasService {
     }
     update(x: number, y: number, newColor: string) {
         try {
-            console.log(x, y, newColor);
             const value = NodeService.instance.nodes[x][y] || '255, 255, 255';
-
-
             if (value != '255, 255, 255') return;
             NodeService.instance.nodes[x][y] = newColor;
             NodeService.instance.paintedSize += 1;
