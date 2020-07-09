@@ -22,9 +22,9 @@ export class CanvasService {
     }
     update(x: number, y: number, newColor: string) {
         try {
-            const value = NodeService.instance.nodes[x][y] || '255, 255, 255';
+            const value = NodeService.instance.nodes[y][x] || '255, 255, 255';
             if (value != '255, 255, 255') return;
-            NodeService.instance.nodes[x][y] = newColor;
+            NodeService.instance.nodes[y][x] = newColor;
             NodeService.instance.paintedSize += 1;
             if (NodeService.instance.paintedSize == NodeService.instance.sizeX * NodeService.instance.sizeY) {
                 this.save()
