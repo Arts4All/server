@@ -20,6 +20,23 @@ export class CanvasService {
     async getAll(): Promise<[ICanvasDocument]> {
         return await this.canvasModel.find({}).limit(20);
     }
+    async getByOrder(number: number): Promise<[ICanvasDocument]> {
+        try {
+            const query = {};
+            const projection = {};
+            const options = {
+                sort: {
+                    date: -1,
+                },
+                limit: number + 1,
+                skip: number
+            };
+
+            return await this.canvasModel.find(query, projection, options)
+        } catch (error) {
+            throw error
+        }
+    }
     update(x: number, y: number, newColor: string) {
         try {
             const value = NodeService.instance.nodes[y][x] || '255, 255, 255';
@@ -34,6 +51,7 @@ export class CanvasService {
         }
 
     }
+
     save() {
         const canvas: ICanvasDocument = {
             sizeX: NodeService.instance.sizeX,
@@ -45,6 +63,7 @@ export class CanvasService {
         this.canvasModel.create(canvas);
         NodeService.reset()
     }
+
     async delete(): Promise<string> {
         return await this.canvasModel.deleteMany({});
     }
