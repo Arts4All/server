@@ -1,24 +1,26 @@
 /* eslint-disable prefer-const */
 export class NodeService {
 
-    public static instance: NodeService = new NodeService(10, 5);
+    public static instance: NodeService = new NodeService(1, 1);
     public nodes: string[][];
     public sizeX: number
     public sizeY: number
     public paintedSize: number
+    public defaultColor: string
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private constructor(sizeX: number, sizeY: number) {
         this.sizeX = sizeX
         this.sizeY = sizeY
         this.paintedSize = 0
+        this.defaultColor = '255,255,255'
         let canvas = [];
         for (let index = 0; index < sizeY; index++) {
             canvas[index] = new Array<string>(sizeX);
         }
         for (let indexX = 0; indexX < sizeY; indexX++) {
             for (let indexY = 0; indexY < sizeX; indexY++) {
-                canvas[indexX][indexY] = '255, 255, 255'
+                canvas[indexX][indexY] = this.defaultColor
             }
         }
         this.nodes = canvas
@@ -33,7 +35,7 @@ export class NodeService {
         }
         for (let indexX = 0; indexX < sizeX; indexX++) {
             for (let indexY = 0; indexY < sizeY; indexY++) {
-                canvas[indexX][indexY] = '#ffffff'
+                canvas[indexX][indexY] = NodeService.instance.defaultColor
             }
         }
         this.instance.nodes = canvas

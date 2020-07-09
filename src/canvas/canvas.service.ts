@@ -18,7 +18,7 @@ export class CanvasService {
         }
     }
     async getAll(): Promise<[ICanvasDocument]> {
-        return await this.canvasModel.find({}).limit(20);
+        return await this.canvasModel.find({}).limit(20).sort('-date');
     }
     async getByOrder(number: number): Promise<[ICanvasDocument]> {
         try {
@@ -39,17 +39,17 @@ export class CanvasService {
     }
     update(x: number, y: number, newColor: string) {
         try {
-            const value = NodeService.instance.nodes[y][x] || '255, 255, 255';
-            if (value != '255, 255, 255') return;
+            const value = NodeService.instance.nodes[y][x] || NodeService.instance.defaultColor;
+            if (value != NodeService.instance.defaultColor) return;
             NodeService.instance.nodes[y][x] = newColor;
             NodeService.instance.paintedSize += 1;
+            console.log(NodeService.instance.paintedSize, NodeService.instance.sizeX * NodeService.instance.sizeY)
             if (NodeService.instance.paintedSize == NodeService.instance.sizeX * NodeService.instance.sizeY) {
                 this.save()
             }
         } catch (error) {
             console.log(error)
         }
-
     }
 
     save() {

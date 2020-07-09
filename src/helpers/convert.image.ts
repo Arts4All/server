@@ -1,8 +1,6 @@
 import * as Jimp from 'jimp';
-import { NodeService } from "src/node/node";
 
 export class ConvertImage {
-
     public static shared: ConvertImage = new ConvertImage();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     private constructor() { };
@@ -10,7 +8,6 @@ export class ConvertImage {
     async jsonToImage(pixels: string[][], resize: number): Promise<Jimp> {
         try {
             const image = await new Jimp(pixels[0].length, pixels.length);
-            
             pixels.forEach((rowPixels, y) => {
                 rowPixels.forEach((pixel, x) => {
                     const rgb = pixel.split(",");
