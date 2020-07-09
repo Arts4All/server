@@ -40,5 +40,9 @@ export class NodeService {
         }
         this.instance.nodes = canvas
     }
+    public static isFinished(): boolean {
+        NodeService.instance.paintedSize += 1;
+        return NodeService.instance.paintedSize == NodeService.instance.sizeX * NodeService.instance.sizeY
+    }
 }
 

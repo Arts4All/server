@@ -7,7 +7,7 @@ import { CanvasService } from 'src/canvas/canvas.service';
 export class GatewayService {
     constructor(
         private readonly canvasService: CanvasService,
-    ) {};
+    ) { };
 
     async join(server: Server, payload: string, client: Socket) {
         server.emit('joined', payload, JSON.stringify(NodeService.instance.nodes));
@@ -15,8 +15,24 @@ export class GatewayService {
 
     async drawToServer(server: Server, payload: string) {
         try {
-            await this.canvasService.update(Number(payload[0]), Number(payload[1]), payload[2])
-            server.emit('drawToClient', Number(payload[0]), Number(payload[1]), payload[2]);
+            const answer = await this.canvasService.update(
+                Number(payload[0]),
+                Number(payload[1]),
+                payload[2]
+            );
+
+            if (!answer) return;
+
+            server.emit('drawToClient',
+                Number(payload[0]),
+                Number(payload[1]),
+                payload[2],
+            );
+
+            if (NodeService.isFinished()) {
+                await this.canvasService.save()
+                this.end(server, payload);
+            }
         } catch (error) {
             console.log(error);
         }

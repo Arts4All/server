@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ICanvasDocument } from './canvas.interface';
 import { NodeService } from 'src/node/node';
+import { ConvertImage } from 'src/helpers/convert.image';
+import { Readable } from 'stream';
+import { Response } from 'express';
+import * as fs from 'fs'
 
 @Injectable()
 export class CanvasService {
@@ -21,34 +25,17 @@ export class CanvasService {
         return await this.canvasModel.find({}).limit(20).sort('-date');
     }
     async getByOrder(number: number): Promise<[ICanvasDocument]> {
-        try {
-            const query = {};
-            const projection = {};
-            const options = {
-                sort: {
-                    date: -1,
-                },
-                limit: number + 1,
-                skip: number
-            };
-
-            return await this.canvasModel.find(query, projection, options)
-        } catch (error) {
-            throw error
-        }
+        return await this.canvasModel.find({}).sort("-date").limit(number + 1).skip(number)
     }
-    update(x: number, y: number, newColor: string) {
+    update(x: number, y: number, newColor: string): boolean {
         try {
-            const value = NodeService.instance.nodes[y][x] || NodeService.instance.defaultColor;
-            if (value != NodeService.instance.defaultColor) return;
+            const value = NodeService.instance.nodes[y][x];
+            if (value != NodeService.instance.defaultColor) return false;
             NodeService.instance.nodes[y][x] = newColor;
-            NodeService.instance.paintedSize += 1;
-            console.log(NodeService.instance.paintedSize, NodeService.instance.sizeX * NodeService.instance.sizeY)
-            if (NodeService.instance.paintedSize == NodeService.instance.sizeX * NodeService.instance.sizeY) {
-                this.save()
-            }
+            return true
         } catch (error) {
             console.log(error)
+            return false
         }
     }
 
@@ -62,6 +49,19 @@ export class CanvasService {
         };
         this.canvasModel.create(canvas);
         NodeService.reset()
+    }
+
+    async responseImage(
+        @Res() response: Response,
+        pixels: string[][],
+        resize: number) {
+
+        const image = await ConvertImage.shared.jsonToImage(pixels, resize)
+        await image.writeAsync("public/OUTPUT_IMAGE.png");
+        const file = fs.createReadStream('public/OUTPUT_IMAGE.png') // or any other way to get a readable stream    
+        const ps = new Readable.PassThrough() // <---- this makes a trick with stream error handling
+        Readable.pipeline(file, ps, (err) => { if (err) throw err })
+        ps.pipe(response)
     }
 
     async delete(): Promise<string> {
