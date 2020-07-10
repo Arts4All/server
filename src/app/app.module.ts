@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { GatewayModule } from 'src/gateway/gateway.module';
 import { MongooseModule } from '@nestjs/mongoose';
+
+import { GatewayModule } from 'src/gateway/gateway.module';
 import { CanvasModule } from 'src/canvas/canvas.module';
 
 const options = {
@@ -22,7 +21,7 @@ const options = {
     GatewayModule,
     CanvasModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -22,7 +22,10 @@ export class CanvasService {
         }
     }
     async getAll(): Promise<[ICanvasDocument]> {
-        return await this.canvasModel.find({}).limit(20).sort('-date');
+        return await this.canvasModel.find({}).sort('-date');
+    }
+    async getLasts(lasts: number): Promise<[ICanvasDocument]> {
+        return await this.canvasModel.find({}).limit(lasts).sort('-date');
     }
     async getByOrder(number: number): Promise<[ICanvasDocument]> {
         return await this.canvasModel.find({}).sort("-date").limit(number + 1).skip(number)
