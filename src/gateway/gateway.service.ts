@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 import { NodeService } from 'src/node/node';
 import { CanvasService } from 'src/canvas/canvas.service';
 
@@ -9,7 +9,7 @@ export class GatewayService {
         private readonly canvasService: CanvasService,
     ) { };
 
-    async join(server: Server, payload: string, client: Socket) {
+    async join(server: Server, payload: string) {
         server.emit('joined', payload, JSON.stringify(NodeService.instance.nodes));
     }
 
