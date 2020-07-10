@@ -41,11 +41,19 @@ export class CanvasController {
         @Res() response: Response,
         @Param('id') idParam: number,
         @Param('resize') resizeParam: number) {
-        
+
         const array = await this.canvasService.getByOrder(Number(idParam))
         if (!array.length && resizeParam <= 200) { return response.json({ sucess: false }) }
         const pixels = array[0].nodes;
 
         return this.canvasService.responseImage(response, pixels, Number(resizeParam))
+    }
+
+    @Get('setup/:x/:y')
+    async setup(
+        @Param('x') xParam: number,
+        @Param('y') yParam: number) {
+        console.log(xParam, yParam)
+        return this.canvasService.setup(Number(xParam), Number(yParam))
     }
 }

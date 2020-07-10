@@ -67,4 +67,11 @@ export class CanvasService {
     async delete(): Promise<string> {
         return await this.canvasModel.deleteMany({});
     }
+
+    setup(x: number, y: number): boolean {
+        NodeService.instance.sizeX = x
+        NodeService.instance.sizeY = y
+        NodeService.reset()
+        return true
+    }
 }
