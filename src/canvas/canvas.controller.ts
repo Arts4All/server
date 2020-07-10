@@ -14,21 +14,25 @@ export class CanvasController {
         return this.canvasService.get();
     }
     @ApiTags('canvas')
+    @ApiOperation({ summary: 'Get all canvas' })
     @Get('all')
     getAll() {
         return this.canvasService.getAll();
     }
     @ApiTags('canvas')
+    @ApiOperation({ summary: 'Get lats canvas by quantity' })
     @Get('lasts/:quantity')
     getLasts(@Param('quantity') quantityParam: number) {
         return this.canvasService.getLasts(Number(quantityParam));
     }
     @ApiTags('canvas')
+    @ApiOperation({ summary: 'Save current canvas and generate a new' })
     @Post('save')
     save() {
         return this.canvasService.save();
     }
     @ApiTags('canvas')
+    @ApiOperation({ summary: 'Configure a new canvas size, default: 10x5' })
     @Put('setup/:x/:y')
     async setup(
         @Param('x') xParam: number,
@@ -37,11 +41,13 @@ export class CanvasController {
         return this.canvasService.setup(Number(xParam), Number(yParam))
     }
     @ApiTags('canvas')
+    @ApiOperation({ summary: '[Danger] Delete all canvas' })
     @Delete('delete')
     delete() {
         return this.canvasService.delete();
     }
     @ApiTags('image')
+    @ApiOperation({ summary: 'Get image from current canvas by scale, max scale is 200' })
     @Get('image/:scale')
     async getImage(@Res() response: Response, @Param('scale') scaleParam: number) {
         const pixels = NodeService.instance.nodes;
@@ -49,6 +55,7 @@ export class CanvasController {
         return this.canvasService.responseImage(response, pixels, Number(scaleParam))
     }
     @ApiTags('image')
+    @ApiOperation({ summary: 'Get image canvas by orgem desc of creation and scale, max scale is 200' })
     @Get('image/:scale/:id')
     async getImageById(
         @Res() response: Response,
