@@ -21,6 +21,7 @@ export class GatewayService {
                 payload[2]
             );
 
+            console.log("here")
             if (!answer) return;
 
             server.emit('drawToClient',
