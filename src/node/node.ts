@@ -13,7 +13,7 @@ export class NodeService {
         this.sizeX = sizeX
         this.sizeY = sizeY
         this.paintedSize = 0
-        this.defaultColor = '255,255,255'
+        this.defaultColor = '229,229,229'
         let canvas = [];
         for (let index = 0; index < sizeY; index++) {
             canvas[index] = new Array<string>(sizeX);
