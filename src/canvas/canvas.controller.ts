@@ -14,6 +14,14 @@ export class CanvasController {
         return this.canvasService.get();
     }
     @ApiTags('canvas')
+    @ApiOperation({ summary: 'Get quantity canvas' })
+    @Get('quantity')
+    async getCount() {
+        const canvas = await this.canvasService.getLasts(20);
+        return {number: canvas.length};
+    }
+
+    @ApiTags('canvas')
     @ApiOperation({ summary: 'Get all canvas' })
     @Get('all')
     getAll() {
