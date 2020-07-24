@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 export class NodeService {
 
-    public static instance: NodeService = new NodeService(15, 10);
+    public static instance: NodeService = new NodeService(40, 24);
     public nodes: string[][];
     public sizeX: number
     public sizeY: number
