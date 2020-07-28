@@ -27,8 +27,10 @@ export class CanvasService {
     async getLasts(lasts: number): Promise<[ICanvasDocument]> {
         return await this.canvasModel.find({}).limit(lasts).sort('-date');
     }
-    async getByOrder(number: number): Promise<[ICanvasDocument]> {
-        return await this.canvasModel.find({}).sort("-date").limit(number + 1).skip(number)
+    async getByOrder(number: number): Promise<ICanvasDocument> {
+        const canvas  = await this.canvasModel.find({})
+        canvas.reverse()
+        return canvas[number]
     }
     update(x: number, y: number, newColor: string): boolean {
         try {

@@ -70,9 +70,9 @@ export class CanvasController {
         @Param('id') idParam: number,
         @Param('scale') scaleParam: number) {
 
-        const array = await this.canvasService.getByOrder(Number(idParam))
-        if (!array.length && scaleParam <= 200) { return response.json({ sucess: false }) }
-        const pixels = array[0].nodes;
+        const element = await this.canvasService.getByOrder(Number(idParam))
+        if (!element || scaleParam > 200) { return response.json({ sucess: false }) }
+        const pixels = element.nodes;
 
         return this.canvasService.responseImage(response, pixels, Number(scaleParam))
     }
