@@ -7,6 +7,7 @@ import { ConvertImage } from 'src/helpers/convert.image';
 import { Readable } from 'stream';
 import { Response } from 'express';
 import * as fs from 'fs'
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class CanvasService {
@@ -60,10 +61,10 @@ export class CanvasService {
         @Res() response: Response,
         pixels: string[][],
         resize: number) {
-
         const image = await ConvertImage.shared.jsonToImage(pixels, resize)
-        await image.writeAsync("public/OUTPUT_IMAGE.png");
-        const file = fs.createReadStream('public/OUTPUT_IMAGE.png') // or any other way to get a readable stream    
+        const value = randomBytes(10)
+        await image.writeAsync(`public/OUTPUT_IMAGE_${value}.png`);
+        const file = fs.createReadStream(`public/OUTPUT_IMAGE_${value}.png`) // or any other way to get a readable stream    
         const ps = new Readable.PassThrough() // <---- this makes a trick with stream error handling
         Readable.pipeline(file, ps, (err) => { if (err) throw err })
         ps.pipe(response)
